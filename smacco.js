@@ -18,10 +18,13 @@ Smacco._construct = function(config) {
 
 Smacco.prototype.csGenerateAccount = function() {
   var code = this.csGenerateHeaders();
+  var rules = [];
+  if(this.config.rules)
+    rules = this.config.rules;
   if(this.config.input_type == "single")
-    code += this.csGenerateSingleAccount();
+    code += this.csGenerateSingleAccount(rules);
   if(this.config.input_type == "array")
-    code += this.csGenerateArrayAccount();
+    code += this.csGenerateArrayAccount(rules);
   code += this.csGenerateFooter();
 	return code;
 };
@@ -47,13 +50,35 @@ Smacco.prototype.csGenerateFooter = function() {
 	return code;
 };
 
-Smacco.prototype.csGenerateSingleAccount = function() {
+Smacco.prototype.csGenerateSingleAccount = function(rules) {
   var code = "public static bool Main(byte[] signature){\n"
+  for(var r=0; r<rules.length; r++) {
+
+  }
 	return code;
 };
 
-Smacco.prototype.csGenerateArrayAccount = function() {
+Smacco.prototype.csGenerateArrayAccount = function(rules) {
   var code = "public static bool Main(byte[][] signatures){\n";
+  for(var r=0; r<rules.length; r++) {
+
+  }
+	return code;
+};
+
+Smacco.prototype.csGenerateRule = function(rule) {
+  var code_condition = this.csGenerateCondition(rule.condition);
+  var code = "if("+code_condition+")\nreturn ";
+  if(rule.rule_type = "DENY_IF")
+    code += "false;\n";
+  if(rule.rule_type = "ALLOW_IF")
+    code += "true;\n";
+	return code;
+};
+
+Smacco.prototype.csGenerateCondition = function(condition) {
+
+  var code = "if(\n";
 	return code;
 };
 
