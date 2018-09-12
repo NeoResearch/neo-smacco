@@ -1,0 +1,54 @@
+{
+  "version": "smacco-1.0",
+  "input_type" : "single/array",
+  "rules" : [
+    {
+      "rule_type" : "DENY_IF/ALLOW_IF",
+      "description" : "xxx",
+      "condition" : {
+        "condition_type" : "AND/OR",
+        "conditions" : [
+          {
+            "condition_type" : "NOT",
+            "condition" : {
+              "condition_type" : "ONLY_ASSET/HAS_ASSET",
+              "param" : "NEO/assetid"
+            }
+          },
+          {
+            "condition_type" : "BLOCK_LEQ/BLOCK_GEQ",
+            "param" : "4000"
+          },
+          {
+            "condition_type" : "CHECKSIG",
+            "pubkey"  : "publickey",
+            "privkey" : "0 (INDEX)",
+          },
+          {
+            "condition_type" : "CHECKMULTISIG",
+            "minimum_required" : "2",
+            "pubkeys"  : [
+                "publickey1",
+                "publickey2",
+              ],
+            "privkeys" : [
+              "0 (INDEX)",
+              "1 (INDEX)",
+              ]
+          },
+          {
+            "condition_type" : "ASSET_ORIG/ASSET_DEST",
+            "target" : "scripthash/self",
+          },
+
+        ]
+
+      }
+    },
+    {
+      "description" : "end"
+    }
+  ],
+  "default_rule" : "DENY_ALL/ALLOW_ALL",
+  "target_language" : "C#"
+}
