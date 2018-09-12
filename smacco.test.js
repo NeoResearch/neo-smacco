@@ -51,6 +51,7 @@ test('Smacco() Multi ALLOW_ALL', () => {
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[][] signatures){\n\
+byte[][] pubkeys = new[] {};\n\
 return true;\n\
 }\n\
 }\n\
@@ -71,6 +72,7 @@ test('Smacco() Multi DENY_ALL', () => {
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[][] signatures){\n\
+byte[][] pubkeys = new[] {};\n\
 return false;\n\
 }\n\
 }\n\

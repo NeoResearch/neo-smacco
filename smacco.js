@@ -58,8 +58,15 @@ Smacco.prototype.csGenerateSingleAccount = function(rules) {
 	return code;
 };
 
-Smacco.prototype.csGenerateArrayAccount = function(rules) {
+Smacco.prototype.csGenerateArrayAccount = function(rules, pubkey_list=[]) {
   var code = "public static bool Main(byte[][] signatures){\n";
+  code += "byte[][] pubkeys = new[] {";
+  for(var pk=0; pk<pubkey_list.length; pk++) {
+    code += "pubkey"+pk;
+    if(pk != pubkey_list.length-1)
+      code += ", ";
+  }
+  code += "};\n";
   for(var r=0; r<rules.length; r++) {
 
   }
