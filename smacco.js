@@ -16,6 +16,7 @@ Smacco._construct = function(config) {
 	return new Smacco(config);
 };
 
+
 Smacco.prototype.csGenerateAccount = function() {
   var code = this.csGenerateHeaders();
   var rules = [];
@@ -23,8 +24,13 @@ Smacco.prototype.csGenerateAccount = function() {
     rules = this.config.rules;
   if(this.config.input_type == "single")
     code += this.csGenerateSingleAccount(rules);
-  if(this.config.input_type == "array")
-    code += this.csGenerateArrayAccount(rules);
+  if(this.config.input_type == "array") {
+    var pubkey_list = [];
+    if(this.config.pubkey_list)
+      pubkey_list = this.config.pubkey_list;
+    code += this.csGeneratePubKeyList(pubkey_list);
+    code += this.csGenerateArrayAccount(rules, pubkey_list);
+  }
   code += this.csGenerateFooter();
 	return code;
 };
@@ -49,6 +55,13 @@ Smacco.prototype.csGenerateFooter = function() {
 ";
 	return code;
 };
+
+Smacco.prototype.csGeneratePubKeyList = function(pubkey_list) {
+  var code = "";
+  for(var pk=0; pk<pubkey_list.length; pk++)
+    code += "public static readonly byte[] pubkey"+pk+" = \""+pubkey_list[pk]+"\".HexToBytes();\n";
+  return code;
+}
 
 Smacco.prototype.csGenerateSingleAccount = function(rules) {
   var code = "public static bool Main(byte[] signature){\n"
