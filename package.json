@@ -1,6 +1,6 @@
 {
   "name": "neo-smacco",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SMart ACcount COmposer",
   "main": "index.js",
   "scripts": {
