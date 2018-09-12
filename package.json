@@ -4,7 +4,7 @@
   "description": "SMart ACcount COmposer",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/igormcoelho/smacco/issues"
   },
-  "homepage": "https://github.com/igormcoelho/smacco#readme"
+  "homepage": "https://github.com/igormcoelho/smacco#readme",
+  "dependencies": {
+    "jest": "^23.6.0"
+  }
 }
