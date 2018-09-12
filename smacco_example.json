@@ -1,6 +1,7 @@
 {
   "version": "smacco-1.0",
   "input_type" : "single/array",
+  "pubkey_list" : ["pubkey0", "pubkey1"],
   "rules" : [
     {
       "rule_type" : "DENY_IF/ALLOW_IF",
@@ -21,19 +22,19 @@
           },
           {
             "condition_type" : "CHECKSIG",
-            "pubkey"  : "publickey",
-            "privkey" : "0 (INDEX)",
+            "pubkey"  : "publickey_0",
+            "privkey" : "input_0",
           },
           {
             "condition_type" : "CHECKMULTISIG",
             "minimum_required" : "2",
             "pubkeys"  : [
-                "publickey1",
-                "publickey2",
+                "publickey_0",
+                "publickey_1",
               ],
             "privkeys" : [
-              "0 (INDEX)",
-              "1 (INDEX)",
+              "input_0",
+              "input_1",
               ]
           },
           {
