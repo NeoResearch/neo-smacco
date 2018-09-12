@@ -4,11 +4,7 @@ test('Smacco() Single ALLOW_ALL', () => {
   var config = {
     "version": "smacco-1.0",
     "input_type" : "single",
-    "pubkey_list" : [],
-    "rules" : [
-    ],
-    "default_rule" : "ALLOW_ALL",
-    "target_language" : "C#"
+    "default_rule" : "ALLOW_ALL"
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
@@ -28,11 +24,7 @@ test('Smacco() Single DENY_ALL', () => {
   var config = {
     "version": "smacco-1.0",
     "input_type" : "single",
-    "pubkey_list" : [],
-    "rules" : [
-    ],
     "default_rule" : "DENY_ALL",
-    "target_language" : "C#"
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
