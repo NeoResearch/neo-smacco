@@ -23,13 +23,13 @@ Smacco.prototype.csGenerateAccount = function() {
   if(this.config.rules)
     rules = this.config.rules;
   if(this.config.input_type == "single")
-    code += this.csGenerateSingleAccount(rules);
+    code += Smacco.csGenerateSingleAccount(rules);
   if(this.config.input_type == "array") {
     var pubkey_list = [];
     if(this.config.pubkey_list)
       pubkey_list = this.config.pubkey_list;
-    code += this.csGeneratePubKeyList(pubkey_list);
-    code += this.csGenerateArrayAccount(rules, pubkey_list);
+    code += Smacco.csGeneratePubKeyList(pubkey_list);
+    code += Smacco.csGenerateArrayAccount(rules, pubkey_list);
   }
   code += this.csGenerateFooter();
 	return code;
@@ -56,14 +56,14 @@ Smacco.prototype.csGenerateFooter = function() {
 	return code;
 };
 
-Smacco.prototype.csGeneratePubKeyList = function(pubkey_list) {
+Smacco.csGeneratePubKeyList = function(pubkey_list) {
   var code = "";
   for(var pk=0; pk<pubkey_list.length; pk++)
-    code += "public static readonly byte[] pubkey"+pk+" = \""+pubkey_list[pk]+"\".HexToBytes();\n";
+    code += "public static readonly byte[] pubkey_"+pk+" = \""+pubkey_list[pk]+"\".HexToBytes();\n";
   return code;
 }
 
-Smacco.prototype.csGenerateSingleAccount = function(rules) {
+Smacco.csGenerateSingleAccount = function(rules) {
   var code = "public static bool Main(byte[] signature){\n"
   for(var r=0; r<rules.length; r++) {
 
@@ -71,35 +71,61 @@ Smacco.prototype.csGenerateSingleAccount = function(rules) {
 	return code;
 };
 
-Smacco.prototype.csGenerateArrayAccount = function(rules, pubkey_list=[]) {
+Smacco.csGenerateArrayAccount = function(rules, pubkey_list=[]) {
   var code = "public static bool Main(byte[][] signatures){\n";
   code += "byte[][] pubkeys = new[] {";
   for(var pk=0; pk<pubkey_list.length; pk++) {
-    code += "pubkey"+pk;
+    code += "pubkey_"+pk;
     if(pk != pubkey_list.length-1)
       code += ", ";
   }
   code += "};\n";
   for(var r=0; r<rules.length; r++) {
-
+    var rule_output = Smacco.csGenerateRule(rules[r]);
+    code = rule_output.methods + code + rule_output.main_code;
   }
 	return code;
 };
 
-Smacco.prototype.csGenerateRule = function(rule) {
-  var code_condition = this.csGenerateCondition(rule.condition);
-  var code = "if("+code_condition+")\nreturn ";
-  if(rule.rule_type = "DENY_IF")
+Smacco.csGenerateRule = function(rule) {
+  var struct_condition = Smacco.csGenerateCondition(rule.condition);
+  var code = "if("+struct_condition.condition_code+")\nreturn ";
+  if(rule.rule_type == "DENY_IF")
     code += "false;\n";
-  if(rule.rule_type = "ALLOW_IF")
+  else if(rule.rule_type == "ALLOW_IF")
     code += "true;\n";
-	return code;
+	return {main_code: code, methods: struct_condition.methods};
 };
 
-Smacco.prototype.csGenerateCondition = function(condition) {
+Smacco.csGenerateCondition = function(condition) {
+  var lcode = "";
+  var lmethods = "";
+  if(condition.condition_type == "CHECKMULTISIG") {
+    lcode = condition.condition_name+"(signatures, pubkeys)";
+    lmethods = "public static bool "+condition.condition_name+"(byte[][] input, byte[][] pubkey){\n\
+byte[][] vpub = new[] {";
+    for(var pb=0; pb<condition.pubkeys.length;pb++) {
+      lmethods += "pubkey["+pb+"]";
+      if(pb != condition.pubkeys.length-1)
+        lmethods+=", ";
+    }
+    lmethods += "};\n\
+byte[][] vsig = new[] {";
+    for(var sig=0; sig<condition.signatures.length;sig++) {
+      lmethods += "input["+sig+"]";
+      if(sig != condition.signatures.length-1)
+        lmethods+=", ";
+    }
+    lmethods += "};\n\
+return VerifySignatures(vsig, vpub);\n";
+    lmethods += "}\n";
+  }
+  else {
+    lcode = "true";
+    lmethods = "";
+  }
 
-  var code = "if(\n";
-	return code;
+	return {condition_code: lcode, methods: lmethods};
 };
 
 

@@ -28,6 +28,7 @@
           {
             "condition_type" : "CHECKMULTISIG",
             "minimum_required" : "2",
+            "condition_name" : "checkmsig",
             "pubkeys"  : [
                 "publickey_0",
                 "publickey_1",
