@@ -24,15 +24,14 @@ Smacco.prototype.csGenerateAccount = function() {
     rules = this.config.rules;
   else if(this.config.rule)
     rules.push(this.config.rule);
+  var pubkey_list = [];
+  if(this.config.pubkey_list)
+    pubkey_list = this.config.pubkey_list;
+  code += Smacco.csGeneratePubKeyList(pubkey_list);
   if(this.config.input_type == "single")
-    code += Smacco.csGenerateSingleAccount(rules);
-  if(this.config.input_type == "array") {
-    var pubkey_list = [];
-    if(this.config.pubkey_list)
-      pubkey_list = this.config.pubkey_list;
-    code += Smacco.csGeneratePubKeyList(pubkey_list);
+    code += Smacco.csGenerateSingleAccount(rules, pubkey_list);
+  if(this.config.input_type == "array")
     code += Smacco.csGenerateArrayAccount(rules, pubkey_list);
-  }
   code += this.csGenerateFooter();
 	return code;
 };
@@ -65,10 +64,11 @@ Smacco.csGeneratePubKeyList = function(pubkey_list) {
   return code;
 }
 
-Smacco.csGenerateSingleAccount = function(rules) {
+Smacco.csGenerateSingleAccount = function(rules, pubkey_list) {
   var code = "public static bool Main(byte[] signature){\n"
   for(var r=0; r<rules.length; r++) {
-
+    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list);
+    code = rule_output.methods + code + rule_output.main_code;
   }
 	return code;
 };
@@ -132,6 +132,13 @@ byte[][] vsig = new[] {";
     lmethods += "};\n\
 return VerifySignatures(vsig, vpub);\n";
     lmethods += "}\n";
+  }
+  else if(condition.condition_type == "CHECKSIG") {
+    var pbkey = "pubkey_0";
+    if(condition.pubkey)
+      pbkey = condition.pubkey;
+    lcode = "VerifySignature(signature, "+pbkey+")";
+    lmethods = "";
   }
   else {
     lcode = "true";

@@ -266,3 +266,62 @@ return false;\n\
 ";
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
+
+test('Smacco() Single CHECKSIG DENY_ALL', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rule" : {
+      "rule_type": "ALLOW_IF",
+      "condition" : {
+        "condition_type" : "CHECKSIG",
+        "pubkey"  : "pubkey_0"
+      },
+    },
+    "default_rule" : "DENY_ALL",
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+if(VerifySignature(signature, pubkey_0))\n\
+return true;\n\
+return false;\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+test('Smacco() Compact Single CHECKSIG DENY_ALL', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rule" : {
+      "rule_type": "ALLOW_IF",
+      "condition" : {
+        "condition_type" : "CHECKSIG"
+      },
+    },
+    "default_rule" : "DENY_ALL",
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+if(VerifySignature(signature, pubkey_0))\n\
+return true;\n\
+return false;\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
