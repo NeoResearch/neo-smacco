@@ -22,6 +22,8 @@ Smacco.prototype.csGenerateAccount = function() {
   var rules = [];
   if(this.config.rules)
     rules = this.config.rules;
+  else if(this.config.rule)
+    rules.push(this.config.rule);
   if(this.config.input_type == "single")
     code += Smacco.csGenerateSingleAccount(rules);
   if(this.config.input_type == "array") {
@@ -71,7 +73,7 @@ Smacco.csGenerateSingleAccount = function(rules) {
 	return code;
 };
 
-Smacco.csGenerateArrayAccount = function(rules, pubkey_list=[]) {
+Smacco.csGenerateArrayAccount = function(rules, pubkey_list) {
   var code = "public static bool Main(byte[][] signatures){\n";
   code += "byte[][] pubkeys = new[] {";
   for(var pk=0; pk<pubkey_list.length; pk++) {
@@ -81,14 +83,14 @@ Smacco.csGenerateArrayAccount = function(rules, pubkey_list=[]) {
   }
   code += "};\n";
   for(var r=0; r<rules.length; r++) {
-    var rule_output = Smacco.csGenerateRule(rules[r]);
+    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list);
     code = rule_output.methods + code + rule_output.main_code;
   }
 	return code;
 };
 
-Smacco.csGenerateRule = function(rule) {
-  var struct_condition = Smacco.csGenerateCondition(rule.condition);
+Smacco.csGenerateRule = function(rule, pubkey_list) {
+  var struct_condition = Smacco.csGenerateCondition(rule.condition, pubkey_list);
   var code = "if("+struct_condition.condition_code+")\nreturn ";
   if(rule.rule_type == "DENY_IF")
     code += "false;\n";
@@ -97,25 +99,36 @@ Smacco.csGenerateRule = function(rule) {
 	return {main_code: code, methods: struct_condition.methods};
 };
 
-Smacco.csGenerateCondition = function(condition) {
+Smacco.csGenerateCondition = function(condition, pubkey_list) {
   var lcode = "";
   var lmethods = "";
   if(condition.condition_type == "CHECKMULTISIG") {
     lcode = condition.condition_name+"(signatures, pubkeys)";
     lmethods = "public static bool "+condition.condition_name+"(byte[][] input, byte[][] pubkey){\n\
 byte[][] vpub = new[] {";
-    for(var pb=0; pb<condition.pubkeys.length;pb++) {
+    var local_pubkey_list = pubkey_list;
+    // if parameter "pubkeys", use it!
+    if(condition.pubkeys)
+      local_pubkey_list = condition.pubkeys;
+    for(var pb=0; pb<local_pubkey_list.length;pb++) {
       lmethods += "pubkey["+pb+"]";
-      if(pb != condition.pubkeys.length-1)
+      if(pb != local_pubkey_list.length-1)
         lmethods+=", ";
     }
     lmethods += "};\n\
 byte[][] vsig = new[] {";
-    for(var sig=0; sig<condition.signatures.length;sig++) {
-      lmethods += "input["+sig+"]";
-      if(sig != condition.signatures.length-1)
-        lmethods+=", ";
-    }
+    if(condition.signatures)
+      for(var sig=0; sig<condition.signatures.length;sig++) {
+        lmethods += "input["+sig+"]";
+        if(sig != condition.signatures.length-1)
+          lmethods+=", ";
+      }
+    else if(condition.minimum_required)
+      for(var sig=0; sig<condition.minimum_required;sig++) {
+        lmethods += "input["+sig+"]";
+        if(sig != condition.minimum_required-1)
+          lmethods+=", ";
+      }
     lmethods += "};\n\
 return VerifySignatures(vsig, vpub);\n";
     lmethods += "}\n";
