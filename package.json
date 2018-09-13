@@ -2,13 +2,13 @@
   "name": "neo-smacco",
   "version": "1.0.0",
   "description": "SMart ACcount COmposer",
-  "main": "index.js",
+  "main": "smacco.js",
   "scripts": {
     "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/igormcoelho/smacco.git"
+    "url": "git+https://github.com/NeoResearch/smacco.git"
   },
   "keywords": [
     "smart-account"
@@ -16,9 +16,9 @@
   "author": "Igor M. Coelho",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/igormcoelho/smacco/issues"
+    "url": "https://github.com/NeoResearch/smacco/issues"
   },
-  "homepage": "https://github.com/igormcoelho/smacco#readme",
+  "homepage": "https://github.com/NeoResearch/smacco#readme",
   "dependencies": {
     "jest": "^23.6.0"
   }

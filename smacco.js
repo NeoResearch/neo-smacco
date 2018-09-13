@@ -6,10 +6,10 @@
 "use strict";
 
 function Smacco(config) {
-  if(config.version == "smacco-1.0")
+  if(config.standard == "smacco-1.0")
 	  this.config = config;
   else
-    console.log("Unsupported version: "+config.version);
+    console.log("Unsupported standard: "+config.standard);
 }
 
 Smacco._construct = function(config) {

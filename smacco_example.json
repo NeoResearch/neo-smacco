@@ -1,5 +1,5 @@
 {
-  "version": "smacco-1.0",
+  "standard": "smacco-1.0",
   "input_type" : "single/array",
   "pubkey_list" : ["pubkey0", "pubkey1"],
   "rules" : [

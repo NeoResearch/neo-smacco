@@ -2,7 +2,7 @@ const Smacco = require('./smacco').Smacco;
 
 test('Smacco() Single ALLOW_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "single",
     "default_rule" : "ALLOW_ALL"
   }
@@ -22,7 +22,7 @@ return true;\n\
 
 test('Smacco() Single DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "single",
     "default_rule" : "DENY_ALL",
   }
@@ -42,7 +42,7 @@ return false;\n\
 
 test('Smacco() Array ALLOW_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "default_rule" : "ALLOW_ALL"
   }
@@ -63,7 +63,7 @@ return true;\n\
 
 test('Smacco() Array DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "default_rule" : "DENY_ALL",
   }
@@ -83,7 +83,7 @@ return false;\n\
 
 test('Smacco() Array PK1 DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
     "default_rule" : "DENY_ALL",
@@ -105,7 +105,7 @@ return false;\n\
 
 test('Smacco() Array PK3 DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb",
     "0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d", "02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4"],
@@ -130,7 +130,7 @@ return false;\n\
 
 test('Smacco() Array PK3 CHECKMULTISIG 2/2 DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb",
     "0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d", "02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4"],
@@ -179,7 +179,7 @@ return false;\n\
 
 test('Smacco() Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   var config = {
-    "version": "smacco-1.0",
+    "standard": "smacco-1.0",
     "input_type" : "array",
     "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb",
     "0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d", "02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4"],
