@@ -412,8 +412,7 @@ test('Smacco() inline Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
         "condition_type" : "CHECKMULTISIG",
         "minimum_required" : "2"
       },
-    },
-    "default_rule" : "DENY_ALL",
+    }
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
