@@ -564,3 +564,79 @@ return (SelfTransfer());\n\
 ";
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
+
+
+test('Smacco() inline single ONLY_NEO', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "ONLY_NEO"
+        },
+      },
+    ]
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+private static readonly byte[] NeoAssetId = { 155, 124, 255, 218, 166, 116, 190, 174, 15, 147, 14, 190, 96, 133, 175, 144, 147, 229, 254, 86, 179, 74, 92, 34, 12, 205, 207, 110, 252, 51, 111, 197 };\n\
+public static bool OnlyNeo(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.AssetId != NeoAssetId)\n\
+return false;\n\
+return true;\n\
+}\n\
+public static bool Main(byte[] signature){\n\
+return (OnlyNeo());\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
+test('Smacco() inline single ONLY_GAS', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "ONLY_GAS"
+        },
+      },
+    ]
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+private static readonly byte[] GasAssetId = { 231, 45, 40, 105, 121, 238, 108, 177, 183, 230, 93, 253, 223, 178, 227, 132, 16, 11, 141, 20, 142, 119, 88, 222, 66, 228, 22, 139, 113, 121, 44, 96 };\n\
+public static bool OnlyGas(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.AssetId != GasAssetId)\n\
+return false;\n\
+return true;\n\
+}\n\
+public static bool Main(byte[] signature){\n\
+return (OnlyGas());\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
