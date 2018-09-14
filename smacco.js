@@ -29,9 +29,9 @@ Smacco.prototype.csGenerateAccount = function() {
     pubkey_list = this.config.pubkey_list;
   code += Smacco.csGeneratePubKeyList(pubkey_list);
   if(this.config.input_type == "single")
-    code += Smacco.csGenerateSingleAccount(rules, pubkey_list);
+    code += Smacco.csGenerateSingleAccount(rules, pubkey_list, (!this.config.inline_last));
   if(this.config.input_type == "array")
-    code += Smacco.csGenerateArrayAccount(rules, pubkey_list);
+    code += Smacco.csGenerateArrayAccount(rules, pubkey_list, (!this.config.inline_last));
   code += this.csGenerateFooter();
 	return code;
 };
@@ -46,10 +46,12 @@ public class Contract1 : SmartContract {\n\
 
 Smacco.prototype.csGenerateFooter = function() {
   var code = "";
-  if(this.config.default_rule == "DENY_ALL")
-    code += "return false;\n";
-  else if(this.config.default_rule == "ALLOW_ALL")
-    code += "return true;\n";
+  if(this.config.inline_last == "disabled") {
+    if(this.config.default_rule == "DENY_ALL")
+      code += "return false;\n";
+    else if(this.config.default_rule == "ALLOW_ALL")
+      code += "return true;\n";
+  }
   code += "}\n\
 }\n\
 }\n\
@@ -64,31 +66,37 @@ Smacco.csGeneratePubKeyList = function(pubkey_list) {
   return code;
 }
 
-Smacco.csGenerateSingleAccount = function(rules, pubkey_list) {
-  var code = "public static bool Main(byte[] signature){\n"
+Smacco.csGenerateSingleAccount = function(rules, pubkey_list, inline_last=true) {
+  var code = "public static bool Main(byte[] signature){\n";
+  var has_return = false;
   for(var r=0; r<rules.length; r++) {
-    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list);
+    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list, (inline_last&&(r==rules.length-1)) );
     code = rule_output.methods + code + rule_output.main_code;
   }
 	return code;
 };
 
-Smacco.csGenerateArrayAccount = function(rules, pubkey_list) {
+Smacco.csGenerateArrayAccount = function(rules, pubkey_list, inline_last=true) {
   var code = "public static bool Main(byte[][] signatures){\n";
   for(var r=0; r<rules.length; r++) {
-    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list);
+    var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list, (inline_last&&(r==rules.length-1)) );
     code = rule_output.methods + code + rule_output.main_code;
   }
 	return code;
 };
 
-Smacco.csGenerateRule = function(rule, pubkey_list) {
+Smacco.csGenerateRule = function(rule, pubkey_list, should_inline=false) {
   var struct_condition = Smacco.csGenerateCondition(rule.condition, pubkey_list);
-  var code = "if("+struct_condition.condition_code+")\nreturn ";
-  if(rule.rule_type == "DENY_IF")
-    code += "false;\n";
-  else if(rule.rule_type == "ALLOW_IF")
-    code += "true;\n";
+  if(should_inline) {
+    var code = "return ("+struct_condition.condition_code+");\n";
+  }
+  else {
+    var code = "if("+struct_condition.condition_code+")\nreturn ";
+    if(rule.rule_type == "DENY_IF")
+      code += "false;\n";
+    else if(rule.rule_type == "ALLOW_IF")
+      code += "true;\n";
+  }
 	return {main_code: code, methods: struct_condition.methods};
 };
 
