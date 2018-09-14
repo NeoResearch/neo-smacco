@@ -122,7 +122,7 @@ Smacco.csGenerateCondition = function(condition, pubkey_list) {
       condName="CheckMultiSig"+sigCount+"_"+local_pubkey_list.length;
 
     lcode = condName+"(signatures)";
-    lmethods = "public static bool "+condName+"(byte[][] input){\n\
+    lmethods = "public static bool "+condName+"(byte[][] signatures){\n\
 byte[][] vpub = new[] {";
 
     for(var pb=0; pb<local_pubkey_list.length;pb++) {
@@ -134,13 +134,13 @@ byte[][] vpub = new[] {";
 byte[][] vsig = new[] {";
     if(condition.signatures)
       for(var sig=0; sig<condition.signatures.length;sig++) {
-        lmethods += "input["+sig+"]";
+        lmethods += "signatures["+sig+"]";
         if(sig != condition.signatures.length-1)
           lmethods+=", ";
       }
     else if(condition.minimum_required)
       for(var sig=0; sig<condition.minimum_required;sig++) {
-        lmethods += "input["+sig+"]";
+        lmethods += "signatures["+sig+"]";
         if(sig != condition.minimum_required-1)
           lmethods+=", ";
       }
@@ -149,10 +149,10 @@ return VerifySignatures(vsig, vpub);\n";
     lmethods += "}\n";
   }
   else if(condition.condition_type == "CHECKSIG") {
-    var pbkey = "pubkey_0";
+    var pbkey = "0"; // default is pubkey_0
     if(condition.pubkey)
       pbkey = condition.pubkey;
-    lcode = "VerifySignature(signature, "+pbkey+")";
+    lcode = "VerifySignature(signature, pubkey_"+pbkey+")";
     lmethods = "";
   }
   else {

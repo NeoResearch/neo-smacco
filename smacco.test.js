@@ -144,12 +144,12 @@ test('Smacco() Array PK3 CHECKMULTISIG 2/2 DENY_ALL', () => {
             "condition_type" : "CHECKMULTISIG",
             "condition_name" : "CheckMultiSig2_2",
             "pubkeys"  : [
-                "pubkey_0",
-                "pubkey_1",
+                "0",
+                "1",
               ],
             "signatures" : [
-              "input_0",
-              "input_1",
+              "0",
+              "1",
               ]
           },
       }
@@ -163,9 +163,9 @@ public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
 public static readonly byte[] pubkey_1 = \"0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d\".HexToBytes();\n\
 public static readonly byte[] pubkey_2 = \"02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4\".HexToBytes();\n\
-public static bool CheckMultiSig2_2(byte[][] input){\n\
+public static bool CheckMultiSig2_2(byte[][] signatures){\n\
 byte[][] vpub = new[] {pubkey_0, pubkey_1};\n\
-byte[][] vsig = new[] {input[0], input[1]};\n\
+byte[][] vsig = new[] {signatures[0], signatures[1]};\n\
 return VerifySignatures(vsig, vpub);\n\
 }\n\
 public static bool Main(byte[][] signatures){\n\
@@ -193,13 +193,13 @@ test('Smacco() Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
             "condition_type" : "CHECKMULTISIG",
             "condition_name" : "CheckMultiSig2_3",
             "pubkeys"  : [
-                "pubkey_0",
-                "pubkey_1",
-                "pubkey_2",
+                "0",
+                "1",
+                "2",
               ],
             "signatures" : [
-              "input_0",
-              "input_1",
+              "0",
+              "1",
               ]
           },
       }
@@ -213,9 +213,9 @@ public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
 public static readonly byte[] pubkey_1 = \"0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d\".HexToBytes();\n\
 public static readonly byte[] pubkey_2 = \"02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4\".HexToBytes();\n\
-public static bool CheckMultiSig2_3(byte[][] input){\n\
+public static bool CheckMultiSig2_3(byte[][] signatures){\n\
 byte[][] vpub = new[] {pubkey_0, pubkey_1, pubkey_2};\n\
-byte[][] vsig = new[] {input[0], input[1]};\n\
+byte[][] vsig = new[] {signatures[0], signatures[1]};\n\
 return VerifySignatures(vsig, vpub);\n\
 }\n\
 public static bool Main(byte[][] signatures){\n\
@@ -252,9 +252,9 @@ public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
 public static readonly byte[] pubkey_1 = \"0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d\".HexToBytes();\n\
 public static readonly byte[] pubkey_2 = \"02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4\".HexToBytes();\n\
-public static bool CheckMultiSig2_3(byte[][] input){\n\
+public static bool CheckMultiSig2_3(byte[][] signatures){\n\
 byte[][] vpub = new[] {pubkey_0, pubkey_1, pubkey_2};\n\
-byte[][] vsig = new[] {input[0], input[1]};\n\
+byte[][] vsig = new[] {signatures[0], signatures[1]};\n\
 return VerifySignatures(vsig, vpub);\n\
 }\n\
 public static bool Main(byte[][] signatures){\n\
@@ -288,7 +288,7 @@ test('Smacco() Single CHECKSIG DENY_ALL', () => {
       "rule_type": "ALLOW_IF",
       "condition" : {
         "condition_type" : "CHECKSIG",
-        "pubkey"  : "pubkey_0"
+        "pubkey"  : "0"
       },
     },
     "default_rule" : "DENY_ALL",
@@ -380,7 +380,7 @@ test('Smacco() inline Single CHECKSIG DENY_ALL', () => {
       "rule_type": "ALLOW_IF",
       "condition" : {
         "condition_type" : "CHECKSIG",
-        "pubkey"  : "pubkey_0"
+        "pubkey"  : "0"
       }
     }
   }
@@ -420,9 +420,9 @@ public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
 public static readonly byte[] pubkey_1 = \"0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d\".HexToBytes();\n\
 public static readonly byte[] pubkey_2 = \"02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4\".HexToBytes();\n\
-public static bool CheckMultiSig2_3(byte[][] input){\n\
+public static bool CheckMultiSig2_3(byte[][] signatures){\n\
 byte[][] vpub = new[] {pubkey_0, pubkey_1, pubkey_2};\n\
-byte[][] vsig = new[] {input[0], input[1]};\n\
+byte[][] vsig = new[] {signatures[0], signatures[1]};\n\
 return VerifySignatures(vsig, vpub);\n\
 }\n\
 public static bool Main(byte[][] signatures){\n\
