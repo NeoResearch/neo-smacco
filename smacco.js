@@ -162,6 +162,20 @@ return VerifySignatures(vsig, vpub);\n";
     lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp < "+timestamp;
     lmethods = "";
   }
+  else if(condition.condition_type == "SELF_TRANSFER") {
+    var condName = "SelfTransfer";
+    if(condition.condition_name)
+       condName = condition.condition_name;
+    lcode = condName+"()";
+    lmethods = "public static bool "+condName+"(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.ScriptHash != ExecutionEngine.ExecutingScriptHash)\n\
+return false;\n\
+return true;\n";
+    lmethods += "}\n";
+  }
   else {
     lcode = "true";
     lmethods = "";

@@ -482,3 +482,40 @@ return (VerifySignature(signature, pubkey_0));\n\
 ";
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
+
+
+test('Smacco() inline single SELF_TRANSFER', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "DENY_IF",
+        "condition" : {
+          "condition_type" : "SELF_TRANSFER"
+        },
+      },
+    ]
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool SelfTransfer(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.ScriptHash != ExecutionEngine.ExecutingScriptHash)\n\
+return false;\n\
+return true;\n\
+}\n\
+public static bool Main(byte[] signature){\n\
+return (SelfTransfer());\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
