@@ -381,9 +381,8 @@ test('Smacco() inline Single CHECKSIG DENY_ALL', () => {
       "condition" : {
         "condition_type" : "CHECKSIG",
         "pubkey"  : "pubkey_0"
-      },
-    },
-    "default_rule" : "DENY_ALL",
+      }
+    }
   }
 
   var code = "using Neo.SmartContract.Framework;\n\

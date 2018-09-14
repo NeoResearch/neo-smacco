@@ -46,7 +46,9 @@ public class Contract1 : SmartContract {\n\
 
 Smacco.prototype.csGenerateFooter = function() {
   var code = "";
-  if(this.config.inline_last == "disabled") {
+  // "default_rule" ignores "inline_last" parameter... to inline last, must not use default!
+  // if inline is disabled, or any default_rule is presented
+  if((this.config.inline_last == "disabled") || this.config.default_rule) {
     if(this.config.default_rule == "DENY_ALL")
       code += "return false;\n";
     else if(this.config.default_rule == "ALLOW_ALL")
