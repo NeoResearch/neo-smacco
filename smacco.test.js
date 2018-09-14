@@ -229,6 +229,7 @@ return false;\n\
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
 
+
 test('Smacco() Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   var config = {
     "standard": "smacco-1.0",
@@ -309,36 +310,6 @@ return false;\n\
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
 
-test('Smacco() Compact Single CHECKSIG DENY_ALL', () => {
-  var config = {
-    "standard": "smacco-1.0",
-    "input_type" : "single",
-    "inline_last" : "disabled",
-    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
-    "rule" : {
-      "rule_type": "ALLOW_IF",
-      "condition" : {
-        "condition_type" : "CHECKSIG"
-      },
-    },
-    "default_rule" : "DENY_ALL",
-  }
-
-  var code = "using Neo.SmartContract.Framework;\n\
-namespace NeoContract1 {\n\
-public class Contract1 : SmartContract {\n\
-public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
-public static bool Main(byte[] signature){\n\
-if(VerifySignature(signature, pubkey_0))\n\
-return true;\n\
-return false;\n\
-}\n\
-}\n\
-}\n\
-";
-  expect(new Smacco(config).csGenerateAccount()).toBe(code);
-});
-
 
 test('Smacco() Compact Single CHECKSIG DENY_ALL', () => {
   var config = {
@@ -371,7 +342,38 @@ return false;\n\
 });
 
 
-test('Smacco() inline Single CHECKSIG DENY_ALL', () => {
+test('Smacco() Compact Single CHECKSIG DENY_ALL', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "inline_last" : "disabled",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rule" : {
+      "rule_type": "ALLOW_IF",
+      "condition" : {
+        "condition_type" : "CHECKSIG"
+      },
+    },
+    "default_rule" : "DENY_ALL",
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+if(VerifySignature(signature, pubkey_0))\n\
+return true;\n\
+return false;\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
+test('Smacco() inline Single CHECKSIG', () => {
   var config = {
     "standard": "smacco-1.0",
     "input_type" : "single",
@@ -440,5 +442,43 @@ f35513e276c6bd313ddd1330f113ec3dc34fbd0dc47652612102e2baf21e
 766b51527ac452c576006c766b00c300c3c476516c766b00c351c3c46c76
 6b51c3ae616c7566
 */
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
+test('Smacco() inline Single TIMESTAMP_LESS CHECKSIG', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "DENY_IF",
+        "condition" : {
+          "condition_type" : "TIMESTAMP_LESS",
+          "timestamp" : "1536896190",
+        },
+      },
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "CHECKSIG"
+        },
+      },
+    ]
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+if(Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp < 1536896190)\n\
+return false;\n\
+return (VerifySignature(signature, pubkey_0));\n\
+}\n\
+}\n\
+}\n\
+";
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });

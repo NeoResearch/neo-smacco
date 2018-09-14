@@ -155,6 +155,13 @@ return VerifySignatures(vsig, vpub);\n";
     lcode = "VerifySignature(signature, pubkey_"+pbkey+")";
     lmethods = "";
   }
+  else if(condition.condition_type == "TIMESTAMP_LESS") {
+    var timestamp = 0;
+    if(condition.timestamp)
+      timestamp = parseInt(String(condition.timestamp));
+    lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp < "+timestamp;
+    lmethods = "";
+  }
   else {
     lcode = "true";
     lmethods = "";
