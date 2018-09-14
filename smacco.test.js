@@ -9,6 +9,8 @@ test('Smacco() Single ALLOW_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[] signature){\n\
@@ -30,6 +32,8 @@ test('Smacco() Single DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[] signature){\n\
@@ -51,6 +55,8 @@ test('Smacco() Array ALLOW_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[][] signatures){\n\
@@ -72,6 +78,8 @@ test('Smacco() Array DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static bool Main(byte[][] signatures){\n\
@@ -93,6 +101,8 @@ test('Smacco() Array PK1 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -116,6 +126,8 @@ test('Smacco() Array PK3 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -158,6 +170,8 @@ test('Smacco() Array PK3 CHECKMULTISIG 2/2 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -208,6 +222,8 @@ test('Smacco() Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -248,6 +264,8 @@ test('Smacco() Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -296,6 +314,8 @@ test('Smacco() Single CHECKSIG 0 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -327,6 +347,8 @@ test('Smacco() Compact Single CHECKSIG DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -357,6 +379,8 @@ test('Smacco() inline Single CHECKSIG', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -393,6 +417,8 @@ test('Smacco() inline Single CHECKSIG AND CHECKSIG', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -431,6 +457,8 @@ test('Smacco() inline Single CHECKSIG OR CHECKSIG', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -462,6 +490,8 @@ test('Smacco() inline Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -514,6 +544,8 @@ test('Smacco() inline Single TIMESTAMP_LESS CHECKSIG', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -545,6 +577,8 @@ test('Smacco() inline single SELF_TRANSFER', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -582,6 +616,8 @@ test('Smacco() inline single ONLY_NEO', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -620,6 +656,8 @@ test('Smacco() inline single ONLY_GAS', () => {
   }
 
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
@@ -634,6 +672,101 @@ return true;\n\
 }\n\
 public static bool Main(byte[] signature){\n\
 return (OnlyGas());\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
+test('Smacco() inline single CHARITY', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a", "036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "CHECKSIG",
+          "pubkey" : "0"
+        },
+      },
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "AND",
+          "conditions" : [
+            {
+              "condition_type" : "CHECKSIG",
+              "pubkey" : "1"
+            },
+            {
+              "condition_type" : "OR",
+              "conditions" : [
+                {
+                  "condition_type" : "AND",
+                  "conditions" : [
+                    {
+                      "condition_type" : "SELF_TRANSFER"
+                    },
+                    {
+                      "condition_type" : "ONLY_NEO"
+                    }
+                  ]
+                },
+                {
+                  "condition_type" : "ONLY_GAS"
+                }
+              ]
+            },
+          ]
+        },
+      },
+    ],
+    "default_rule" : "DENY_ALL"
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a\".HexToBytes();\n\
+public static readonly byte[] pubkey_1 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool SelfTransfer(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.ScriptHash != ExecutionEngine.ExecutingScriptHash)\n\
+return false;\n\
+return true;\n\
+}\n\
+private static readonly byte[] NeoAssetId = { 155, 124, 255, 218, 166, 116, 190, 174, 15, 147, 14, 190, 96, 133, 175, 144, 147, 229, 254, 86, 179, 74, 92, 34, 12, 205, 207, 110, 252, 51, 111, 197 };\n\
+public static bool OnlyNeo(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.AssetId != NeoAssetId)\n\
+return false;\n\
+return true;\n\
+}\n\
+private static readonly byte[] GasAssetId = { 231, 45, 40, 105, 121, 238, 108, 177, 183, 230, 93, 253, 223, 178, 227, 132, 16, 11, 141, 20, 142, 119, 88, 222, 66, 228, 22, 139, 113, 121, 44, 96 };\n\
+public static bool OnlyGas(){\n\
+Transaction tx = (Transaction)ExecutionEngine.ScriptContainer;\n\
+TransactionOutput[] outputs = tx.GetOutputs();\n\
+foreach (TransactionOutput output in outputs)\n\
+if (output.AssetId != GasAssetId)\n\
+return false;\n\
+return true;\n\
+}\n\
+public static bool Main(byte[] signature){\n\
+if(VerifySignature(signature, pubkey_0))\n\
+return true;\n\
+if((VerifySignature(signature, pubkey_1)) && (((SelfTransfer()) && (OnlyNeo())) || (OnlyGas())))\n\
+return true;\n\
+return false;\n\
 }\n\
 }\n\
 }\n\

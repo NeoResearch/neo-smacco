@@ -29,15 +29,17 @@ Smacco.prototype.csGenerateAccount = function() {
     pubkey_list = this.config.pubkey_list;
   code += Smacco.csGeneratePubKeyList(pubkey_list);
   if(this.config.input_type == "single")
-    code += Smacco.csGenerateSingleAccount(rules, pubkey_list, (!this.config.inline_last));
+    code += Smacco.csGenerateSingleAccount(rules, pubkey_list, (!this.config.default_rule && !this.config.inline_last));
   if(this.config.input_type == "array")
-    code += Smacco.csGenerateArrayAccount(rules, pubkey_list, (!this.config.inline_last));
+    code += Smacco.csGenerateArrayAccount(rules, pubkey_list, (!this.config.default_rule && !this.config.inline_last));
   code += this.csGenerateFooter();
 	return code;
 };
 
 Smacco.prototype.csGenerateHeaders = function() {
   var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
 namespace NeoContract1 {\n\
 public class Contract1 : SmartContract {\n\
 ";
