@@ -96,13 +96,25 @@ Smacco.csGenerateCondition = function(condition, pubkey_list) {
   var lcode = "";
   var lmethods = "";
   if(condition.condition_type == "CHECKMULTISIG") {
-    lcode = condition.condition_name+"(signatures)";
-    lmethods = "public static bool "+condition.condition_name+"(byte[][] input){\n\
-byte[][] vpub = new[] {";
     var local_pubkey_list = pubkey_list;
     // if parameter "pubkeys", use it!
     if(condition.pubkeys)
       local_pubkey_list = condition.pubkeys;
+    var sigCount = -1;
+    if(condition.minimum_required)
+      sigCount = condition.minimum_required;
+    if((sigCount == -1) && (condition.signatures))
+      sigCount = condition.signatures.length;
+    var condName = "";
+    if(condition.condition_name)
+       condName = condition.condition_name;
+    if(condName == "") // standard function name
+      condName="CheckMultiSig"+sigCount+"_"+local_pubkey_list.length;
+
+    lcode = condName+"(signatures)";
+    lmethods = "public static bool "+condName+"(byte[][] input){\n\
+byte[][] vpub = new[] {";
+
     for(var pb=0; pb<local_pubkey_list.length;pb++) {
       lmethods += "pubkey_"+pb;
       if(pb != local_pubkey_list.length-1)
