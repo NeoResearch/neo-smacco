@@ -75,13 +75,6 @@ Smacco.csGenerateSingleAccount = function(rules, pubkey_list) {
 
 Smacco.csGenerateArrayAccount = function(rules, pubkey_list) {
   var code = "public static bool Main(byte[][] signatures){\n";
-  code += "byte[][] pubkeys = new[] {";
-  for(var pk=0; pk<pubkey_list.length; pk++) {
-    code += "pubkey_"+pk;
-    if(pk != pubkey_list.length-1)
-      code += ", ";
-  }
-  code += "};\n";
   for(var r=0; r<rules.length; r++) {
     var rule_output = Smacco.csGenerateRule(rules[r], pubkey_list);
     code = rule_output.methods + code + rule_output.main_code;
@@ -103,15 +96,15 @@ Smacco.csGenerateCondition = function(condition, pubkey_list) {
   var lcode = "";
   var lmethods = "";
   if(condition.condition_type == "CHECKMULTISIG") {
-    lcode = condition.condition_name+"(signatures, pubkeys)";
-    lmethods = "public static bool "+condition.condition_name+"(byte[][] input, byte[][] pubkey){\n\
+    lcode = condition.condition_name+"(signatures)";
+    lmethods = "public static bool "+condition.condition_name+"(byte[][] input){\n\
 byte[][] vpub = new[] {";
     var local_pubkey_list = pubkey_list;
     // if parameter "pubkeys", use it!
     if(condition.pubkeys)
       local_pubkey_list = condition.pubkeys;
     for(var pb=0; pb<local_pubkey_list.length;pb++) {
-      lmethods += "pubkey["+pb+"]";
+      lmethods += "pubkey_"+pb;
       if(pb != local_pubkey_list.length-1)
         lmethods+=", ";
     }
