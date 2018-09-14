@@ -176,6 +176,17 @@ return false;\n\
 return true;\n";
     lmethods += "}\n";
   }
+  else if(condition.condition_type == "AND") {
+    var lcode = "";
+    var lmethods = "";
+    for(var i=0; i<condition.conditions.length; i++) {
+      var code_pair = Smacco.csGenerateCondition(condition.conditions[i], pubkey_list);
+      lcode += "("+code_pair.condition_code+")";
+      if(i < condition.conditions.length-1)
+        lcode += " && "
+      lmethods += code_pair.methods;
+    }
+  }
   else {
     lcode = "true";
     lmethods = "";
