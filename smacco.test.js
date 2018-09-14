@@ -407,6 +407,45 @@ return ((VerifySignature(signature, pubkey_0)) && (VerifySignature(signature, pu
 });
 
 
+test('Smacco() inline Single CHECKSIG OR CHECKSIG', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb", "0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d"],
+    "rule" : {
+      "rule_type": "ALLOW_IF",
+      "condition" : {
+        "condition_type": "OR",
+        "conditions" : [
+          {
+            "condition_type" : "CHECKSIG",
+            "pubkey"  : "0"
+          },
+          {
+            "condition_type" : "CHECKSIG",
+            "pubkey"  : "1"
+          }
+        ]
+      }
+    }
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static readonly byte[] pubkey_1 = \"0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+return ((VerifySignature(signature, pubkey_0)) || (VerifySignature(signature, pubkey_1)));\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
+
 test('Smacco() inline Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL', () => {
   var config = {
     "standard": "smacco-1.0",
