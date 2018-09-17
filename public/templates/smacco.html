@@ -1,0 +1,157 @@
+  <div class="container-fluid">
+
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+    <!-- ======================================================== -->
+
+        <!-- ======================================================== -->
+        <!-- BEGIN DIV MAIN CONTENTS - EVERYTHING IS HERE - I -->
+        <div class="col-sm-10">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">SMACCO</div>
+                        <div class="panel-body">
+                            <form id="formSmacco" action="/smacco" style="margin-top: 10px;" method="post">
+                                <div class="tab-container">
+                                    <ul class="nav nav-tabs" id="smacconavtabs">
+                                        <li class="active"><a data-target="#singleSigCode" data-toggle="tab">single-sig</a></li>
+                                        <li><a data-target="#multiSigCode" data-toggle="tab">multi-sig</a></li>
+                                    </ul>
+
+                                    <!-- /////////////////////////////////////////////////////////////////// -->
+                                    <!-- singleSigCode -->
+                                    <div class="tab-content">
+                                        <div class="tab-pane active cont" id="singleSigCode">
+                                                <div class="dropdown btn-group" style="margin-bottom: 10px">
+                                                    <a class="btn btn-sucess dropdown-toggle" data-toggle="dropdown">
+                                                        Select Example
+                                                        <span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu" id="ExampleList">
+                                                        <li><a onclick="setExample('0')">HelloWorld.cs</a></li>
+                                                        <li><a onclick="setExample('1')">ICO_Template.cs</a></li>
+                                                    </ul>
+                                                </div>
+                                                <input type="hidden" id="code_cs" name="codesend_cs"/>
+                                                <pre id="editorSingleSig">
+using Neo.SmartContract.Framework;
+using Neo.SmartContract.Framework.Services.Neo;
+using System;
+using System.Numerics;
+namespace NeoContract1
+{
+    public class Contract1 : SmartContract
+    {
+        public static void Main()
+        {
+            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+        }
+    }
+}
+                                      </pre>
+                                    </div>
+                                    <!-- /////////////////////////////////////////////////////////////////// -->
+                                    <!-- end singleSigCode -->
+
+                                          <!-- /////////////////////////////////////////////////////////////////// -->
+                                          <!-- python div -->
+                                          <div class="tab-pane cont" id="multiSigCode">
+                                              <input type="hidden" id="code_python" name="codesend_python"/>
+                                              <pre id="editorPython">
+from boa.interop.Neo.Runtime import Notify, CheckWitness
+
+def Main():
+    #OWNER=b'031a6c6fbbdf02ca351745fa86b9ba5a9452d785ac4f7fc2b7548ca2a46c4fcf4a'
+    OWNER=b'\x03\x1alo\xbb\xdf\x02\xca5\x17E\xfa\x86\xb9\xbaZ\x94R\xd7\x85\xacO\x7f\xc2\xb7T\x8c\xa2\xa4lO\xcfJ'
+    result = CheckWitness(OWNER)
+    if result:
+        print(&quot;OWNER is caller&quot;)
+        return True
+    return False
+                                            </pre>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end python div -->
+                                <!-- /////////////////////////////////////////////////////////////////// -->
+                                <button type="submit" id="compilebtn" style="margin-top: 5px;" class="btn btn-success" data-toggle="modal">Create account</button>
+
+
+                                <h4>SMACCO Errors:</h4>
+                                <!-- end common submit button -->
+                                <!-- /////////////////////////////////////////////////////////////////// -->
+
+                                <textarea id="codewarnerr" readonly="readonly" rows="7" cols="100" placeholder="Warning/Errors in code..." class="form-control"></textarea>
+                              </form> <!-- id="formSMACCO" -->
+
+                                <div class="tab-container">
+                                  <ul class="nav nav-tabs" id="compilersnavtabs">
+                                      <li class="active"><a data-target="#csharpSmaccoCode" data-toggle="tab">C#</a></li>
+                                  </ul>
+                                    <div class="tab-content">
+                                        <div class="tab-pane active cont" id="csharpSmaccoCode">
+                                                <input type="hidden" id="code_cs" name="codesend_cs"/>
+                                                <pre id="editorCSharp">
+    using Neo.SmartContract.Framework;
+    using Neo.SmartContract.Framework.Services.Neo;
+    using System;
+    using System.Numerics;
+    namespace NeoContract1
+    {
+    public class Contract1 : SmartContract
+    {
+        public static void Main()
+        {
+            Storage.Put(Storage.CurrentContext, &quot;Hello&quot;, &quot;World&quot;);
+        }
+    }
+    }
+                                      </pre>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <h4>AVM (in hex):</h4>
+                                <textarea id="codeavm" name="codeavm" readonly="readonly" rows="5" cols="100" placeholder="AVM (in hex)" class="form-control"></textarea>
+
+
+                            <!-- end of compilex form -->
+                            <!-- /////////////////////////////////////////////////////////////////// -->
+                        </div>
+                    </div>
+      <!-- END DIV MAIN CONTENTS - EVERYTHING WAS INSIDE HERE - II-->
+      <!-- ======================================================== -->
+      <!-- ======================================================== -->
+
+  </div> <!-- end col -->
+  <!-- END DIV MAIN CONTENTS - EVERYTHING WAS INSIDE HERE - I -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+
+  </div> <!-- end row -->
+  <!-- BEGIN DIV MAIN CONTENTS - MENU AND CONTENT -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+  <!-- ======================================================== -->
+
+    <script src="public/js/common/neoEditorScripts.js"></script>
+
+    <script>
+        var editorPython = createEditor("editorPython", "ace/mode/python");
+        var editorSingleSig = createEditor("editorSingleSig", "ace/mode/csharp");
+        var csharpSmaccoCode = createEditor("csharpSmaccoCode", "ace/mode/csharp");
+        var cSharpFiles = [
+            //["https://raw.githubusercontent.com/NeoResearch/examples-csharp/master/HelloWorld/HelloWorld.cs"],
+            ["/examples/csharp/HelloWorld/HelloWorld.cs"],
+            ["/examples/csharp/ICO_Template/ICO_Template.cs"],
+        ];
+
+
+
+        //Check current webpage and starts with localhost or neocompiler public website
+        $(document).ready(function(){
+
+
+        });
+    </script>
+</div>
