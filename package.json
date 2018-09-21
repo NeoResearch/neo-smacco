@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/NeoResearch/smacco/issues"
   },
-  "homepage": "https://github.com/NeoResearch/smacco#readme",
+  "homepage": "https://neoresearch.io/smacco-demo",
   "dependencies": {
     "jest": "^23.6.0"
   }
