@@ -4,7 +4,8 @@
   "description": "SMart ACcount COmposer",
   "main": "smacco.js",
   "scripts": {
-    "test": "jest"
+    "test": "./node_modules/.bin/jest",
+    "build": "./node_modules/.bin/webpack"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,10 @@
   },
   "homepage": "https://neoresearch.io/smacco-demo",
   "dependencies": {
-    "jest": "^23.6.0"
+    "jest": "^23.6.0",
+    "webpack": "^4.20.2"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.1.1"
   }
 }
