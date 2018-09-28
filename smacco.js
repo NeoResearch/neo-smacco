@@ -16,7 +16,6 @@ Smacco._construct = function(config) {
 	return new Smacco(config);
 };
 
-
 Smacco.prototype.csGenerateAccount = function() {
   var code = this.csGenerateHeaders();
   var rules = [];
@@ -249,6 +248,176 @@ return true;\n";
 	return {condition_code: lcode, methods: lmethods};
 };
 
+// =========================== FLOWCHART.JS CODE =======================
+
+Smacco.prototype.generateFlowChart = function() {
+  var fcCode = "";
+  if(this.config.input_type == "single")
+    fcCode += "input=>start: Single Signature Input|past\n";
+  if(this.config.input_type == "array")
+    fcCode += "input=>start: Array Signature Input|past\n";
+  fcCode += "accept=>end: Accept (ALLOW)|approved\n";
+  fcCode += "deny=>end: Reject (DENY)|rejected\n";
+
+  var fcRulesCode = "";
+
+  var rules = [];
+  if(this.config.rules)
+    rules = this.config.rules;
+  else if(this.config.rule)
+    rules.push(this.config.rule);
+
+  if(rules.length > 0)
+    fcRulesCode += "input->Rule0\n";
+  else {
+    if(this.config.default_rule=="ALLOW_ALL")
+      fcRulesCode += "input->accept\n";
+    else
+      fcRulesCode += "input->deny\n";
+  }
+
+  var pubkey_list = [];
+  if(this.config.pubkey_list)
+    pubkey_list = this.config.pubkey_list;
+  var inline_last = (!this.config.default_rule && !this.config.inline_last);
+
+  for(var r=0; r<rules.length; r++) {
+    var rule_output = Smacco.fcGenerateRule(rules[r], r, pubkey_list, (inline_last&&(r==rules.length-1)) );
+    fcCode += rule_output.declarations;
+    fcRulesCode += rule_output.arrows;
+  }
+
+/*
+Rule0=>condition: Before 2018-09-20 11:00:00Z
+Rule1=>condition: CheckSig(03624...568fb)
+input->Rule0
+Rule0(yes)->deny
+Rule0(no)->Rule1
+Rule1(yes)->accept
+Rule1(no)->deny
+*/
+  return fcCode+fcRulesCode;
+}
+
+
+Smacco.fcGenerateRule = function(rule, rule_id, pubkey_list, should_inline=false) {
+  var declarations = "Rule"+rule_id+"=>condition: ";
+  var fcCodeCondition = Smacco.fcGenerateCondition(rule.condition, pubkey_list);
+  declarations += fcCodeCondition+"\n";
+
+  var arrows = "";
+
+  if(should_inline) {
+    if(rule.rule_type == "DENY_IF") {
+      arrows += "Rule"+rule_id+"(yes)->deny\n";
+      arrows += "Rule"+rule_id+"(no)->accept\n";
+    }
+    if(rule.rule_type == "ALLOW_IF") {
+      arrows += "Rule"+rule_id+"(yes)->accept\n";
+      arrows += "Rule"+rule_id+"(no)->deny\n";
+    }
+  } else {
+    if(rule.rule_type == "DENY_IF") {
+      arrows += "Rule"+rule_id+"(yes)->deny\n";
+      arrows += "Rule"+rule_id+"(no)->Rule"+(rule_id+1)+"\n";
+    }
+    if(rule.rule_type == "ALLOW_IF") {
+      arrows += "Rule"+rule_id+"(yes)->accept\n";
+      arrows += "Rule"+rule_id+"(no)->Rule"+(rule_id+1)+"\n";
+    }
+  }
+
+	return {declarations: declarations, arrows: arrows};
+};
+
+Smacco.ellipsePubkey = function(pubkey) {
+  return pubkey.substr(0,5)+"..."+pubkey.slice(pubkey.length-5);
+}
+
+Smacco.fcGenerateCondition = function(condition, pubkey_list) {
+  var lcode = "";
+  if(condition.condition_type == "CHECKMULTISIG") {
+    var local_pubkey_list = pubkey_list;
+    // if parameter "pubkeys", use it!
+    if(condition.pubkeys)
+      local_pubkey_list = condition.pubkeys;
+    var sigCount = -1;
+    if(condition.minimum_required)
+      sigCount = condition.minimum_required;
+    if((sigCount == -1) && (condition.signatures))
+      sigCount = condition.signatures.length;
+    var condName = "";
+    if(condition.condition_name)
+       condName = condition.condition_name;
+
+    lcode = "CheckMultiSig("+sigCount+"; {";
+
+    for(var pb=0; pb<local_pubkey_list.length;pb++) {
+      lcode += Smacco.ellipsePubkey(local_pubkey_list[pb]);
+      if(pb != local_pubkey_list.length-1)
+        lcode+=", ";
+    }
+    lcode += "})";
+  }
+  else if(condition.condition_type == "CHECKSIG") {
+    var pbkey = "0"; // default is pubkey_0
+    if(condition.pubkey)
+      pbkey = condition.pubkey;
+    if(pbkey.length<=2)
+      pbkey = pubkey_list[new Number(pbkey)];
+    lcode = "CheckSig("+Smacco.ellipsePubkey(pbkey)+")";
+  }
+  else if(condition.condition_type == "TIMESTAMP_LESS") {
+    var timestamp = 0;
+    if(condition.timestamp)
+      timestamp = parseInt(String(condition.timestamp));
+    if(condition.utc)
+      timestamp = Math.round(new Date(condition.utc).valueOf()/1000);
+    var dt = new Date(timestamp*1000);
+    var isoText = dt.toISOString().split("T")[0] + " " + dt.toISOString().split("T")[1].split("Z")[0].substr(0,8)+"Z";
+    lcode = "Before "+isoText;
+  }
+  else if(condition.condition_type == "TIMESTAMP_GREATER") {
+    var timestamp = 0;
+    if(condition.timestamp)
+      timestamp = parseInt(String(condition.timestamp));
+    if(condition.utc)
+      timestamp = Math.round(new Date(condition.utc).valueOf()/1000);
+    var dt = new Date(timestamp*1000);
+    var isoText = dt.toISOString().split("T")[0] + " " + dt.toISOString().split("T")[1].split("Z")[0].substr(0,8)+"Z";
+    lcode = "After "+isoText;
+  }
+  else if(condition.condition_type == "SELF_TRANSFER") {
+    lcode = "SelfTransfer";
+  }
+  else if(condition.condition_type == "ONLY_NEO") {
+    lcode = "OnlyNeo";
+  }
+  else if(condition.condition_type == "ONLY_GAS") {
+    lcode = "OnlyGas";
+  }
+  else if(condition.condition_type == "AND") {
+    for(var i=0; i<condition.conditions.length; i++) {
+      var code_out = Smacco.fcGenerateCondition(condition.conditions[i], pubkey_list);
+      lcode += "("+code_out+")";
+      if(i < condition.conditions.length-1)
+        lcode += " && "
+    }
+  }
+  else if(condition.condition_type == "OR") {
+    for(var i=0; i<condition.conditions.length; i++) {
+      var code_out = Smacco.fcGenerateCondition(condition.conditions[i], pubkey_list);
+      lcode += "("+code_out+")";
+      if(i < condition.conditions.length-1)
+        lcode += " || "
+    }
+  }
+  else {
+    lcode = "true";
+  }
+
+	return lcode;
+};
 
 exports.Smacco = Smacco;
 })(typeof exports !== 'undefined' ? exports : this);

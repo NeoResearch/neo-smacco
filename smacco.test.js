@@ -894,3 +894,40 @@ return false;\n\
 ";
   expect(new Smacco(config).csGenerateAccount()).toBe(code);
 });
+
+
+test('Smacco() inline Single TIMESTAMP_GREATER UTC CHECKSIG FLOWCHART', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "DENY_IF",
+        "condition" : {
+          "condition_type" : "TIMESTAMP_GREATER",
+          "utc" : "2018-09-14 03:36:30Z",
+        },
+      },
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "CHECKSIG"
+        },
+      },
+    ]
+  }
+
+  var code = "input=>start: Single Signature Input|past\n\
+accept=>end: Accept (ALLOW)|approved\n\
+deny=>end: Reject (DENY)|rejected\n\
+Rule0=>condition: After 2018-09-14 03:36:30Z\n\
+Rule1=>condition: CheckSig(03624...568fb)\n\
+input->Rule0\n\
+Rule0(yes)->deny\n\
+Rule0(no)->Rule1\n\
+Rule1(yes)->accept\n\
+Rule1(no)->deny\n\
+";
+  expect(new Smacco(config).generateFlowChart()).toBe(code);
+});
