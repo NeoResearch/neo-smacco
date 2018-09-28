@@ -350,14 +350,17 @@ Smacco.fcGenerateCondition = function(condition, pubkey_list) {
     if(condition.condition_name)
        condName = condition.condition_name;
 
-    lcode = "CheckMultiSig("+sigCount+"; {";
-
+    lcode = "CheckMultiSig("+sigCount;
+    lcode += " / " + local_pubkey_list.length + ")";
+/*
+    lcode+="; {";
     for(var pb=0; pb<local_pubkey_list.length;pb++) {
       lcode += Smacco.ellipsePubkey(local_pubkey_list[pb]);
       if(pb != local_pubkey_list.length-1)
         lcode+=", ";
     }
     lcode += "})";
+*/
   }
   else if(condition.condition_type == "CHECKSIG") {
     var pbkey = "0"; // default is pubkey_0

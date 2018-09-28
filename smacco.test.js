@@ -896,6 +896,33 @@ return false;\n\
 });
 
 
+// ============================= FLOWCHART.JS ===========================
+
+test('Smacco() inline Single CHECKSIG FLOWCHART', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rule" :
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "CHECKSIG"
+        }
+      }
+  }
+
+  var code = "input=>start: Single Signature Input|past\n\
+accept=>end: Accept (ALLOW)|approved\n\
+deny=>end: Reject (DENY)|rejected\n\
+Rule0=>condition: CheckSig(03624...568fb)\n\
+input->Rule0\n\
+Rule0(yes)->accept\n\
+Rule0(no)->deny\n\
+";
+  expect(new Smacco(config).generateFlowChart()).toBe(code);
+});
+
 test('Smacco() inline Single TIMESTAMP_GREATER UTC CHECKSIG FLOWCHART', () => {
   var config = {
     "standard": "smacco-1.0",
@@ -929,5 +956,33 @@ Rule0(no)->Rule1\n\
 Rule1(yes)->accept\n\
 Rule1(no)->deny\n\
 ";
+  expect(new Smacco(config).generateFlowChart()).toBe(code);
+});
+
+
+test('Smacco() inline Compact Array PK3 CHECKMULTISIG 2/3 DENY_ALL FLOWCHART', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "array",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb",
+      "0303897394935bb5418b1c1c4cf35513e276c6bd313ddd1330f113ec3dc34fbd0d", "02e2baf21e36df2007189d05b9e682f4192a101dcdf07eed7d6313625a930874b4"],
+    "rule" : {
+      "rule_type": "ALLOW_IF",
+      "condition" : {
+        "condition_type" : "CHECKMULTISIG",
+        "minimum_required" : "2"
+      },
+    }
+  }
+
+  var code = "input=>start: Array Signature Input|past\n\
+accept=>end: Accept (ALLOW)|approved\n\
+deny=>end: Reject (DENY)|rejected\n\
+Rule0=>condition: CheckMultiSig(2 / 3)\n\
+input->Rule0\n\
+Rule0(yes)->accept\n\
+Rule0(no)->deny\n\
+";
+
   expect(new Smacco(config).generateFlowChart()).toBe(code);
 });
