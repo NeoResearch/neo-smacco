@@ -26,7 +26,7 @@ Smacco = smacco.Smacco;
 `npm install neo-smacco`
 
 ```js
-const Smacco = require('smacco').Smacco;
+const Smacco = require('neo-smacco').Smacco;
 ```
 
 ## For Developers
