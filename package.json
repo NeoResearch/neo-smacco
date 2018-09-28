@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NeoResearch/smacco.git"
+    "url": "git+https://github.com/NeoResearch/neo-smacco.git"
   },
   "keywords": [
     "smart-account"
@@ -17,9 +17,9 @@
   "author": "Igor M. Coelho",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/NeoResearch/smacco/issues"
+    "url": "https://github.com/NeoResearch/neo-smacco/issues"
   },
-  "homepage": "https://neoresearch.io/smacco-demo",
+  "homepage": "https://neoresearch.io/smacco",
   "dependencies": {
     "jest": "^23.6.0",
     "webpack": "^4.20.2"
