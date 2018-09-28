@@ -1,4 +1,4 @@
-# smacco
+# neo-smacco
 SMACCO - SMart ACcount COmposer
 
 This project aims to easily generate "smart accounts" for holding assets based on different (and combined) features:
