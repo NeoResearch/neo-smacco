@@ -161,6 +161,8 @@ return VerifySignatures(vsig, vpub);\n";
     var timestamp = 0;
     if(condition.timestamp)
       timestamp = parseInt(String(condition.timestamp));
+    if(condition.utc)
+      timestamp = Math.round(new Date(condition.utc).valueOf()/1000);
     lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp < "+timestamp;
     lmethods = "";
   }
@@ -168,6 +170,8 @@ return VerifySignatures(vsig, vpub);\n";
     var timestamp = 0;
     if(condition.timestamp)
       timestamp = parseInt(String(condition.timestamp));
+    if(condition.utc)
+      timestamp = Math.round(new Date(condition.utc).valueOf()/1000);
     lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp > "+timestamp;
     lmethods = "";
   }
