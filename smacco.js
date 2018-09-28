@@ -164,6 +164,13 @@ return VerifySignatures(vsig, vpub);\n";
     lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp < "+timestamp;
     lmethods = "";
   }
+  else if(condition.condition_type == "TIMESTAMP_GREATER") {
+    var timestamp = 0;
+    if(condition.timestamp)
+      timestamp = parseInt(String(condition.timestamp));
+    lcode = "Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp > "+timestamp;
+    lmethods = "";
+  }
   else if(condition.condition_type == "SELF_TRANSFER") {
     var condName = "SelfTransfer";
     if(condition.condition_name)

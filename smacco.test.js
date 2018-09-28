@@ -561,6 +561,46 @@ return (VerifySignature(signature, pubkey_0));\n\
 });
 
 
+test('Smacco() inline Single TIMESTAMP_GREATER CHECKSIG', () => {
+  var config = {
+    "standard": "smacco-1.0",
+    "input_type" : "single",
+    "pubkey_list" : ["036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb"],
+    "rules" : [
+      {
+        "rule_type": "DENY_IF",
+        "condition" : {
+          "condition_type" : "TIMESTAMP_GREATER",
+          "timestamp" : "1536896190",
+        },
+      },
+      {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+          "condition_type" : "CHECKSIG"
+        },
+      },
+    ]
+  }
+
+  var code = "using Neo.SmartContract.Framework;\n\
+using Neo.SmartContract.Framework.Services.Neo;\n\
+using Neo.SmartContract.Framework.Services.System;\n\
+namespace NeoContract1 {\n\
+public class Contract1 : SmartContract {\n\
+public static readonly byte[] pubkey_0 = \"036245f426b4522e8a2901be6ccc1f71e37dc376726cc6665d80c5997e240568fb\".HexToBytes();\n\
+public static bool Main(byte[] signature){\n\
+if(Blockchain.GetHeader(Blockchain.GetHeight()).Timestamp > 1536896190)\n\
+return false;\n\
+return (VerifySignature(signature, pubkey_0));\n\
+}\n\
+}\n\
+}\n\
+";
+  expect(new Smacco(config).csGenerateAccount()).toBe(code);
+});
+
+
 test('Smacco() inline single SELF_TRANSFER', () => {
   var config = {
     "standard": "smacco-1.0",
