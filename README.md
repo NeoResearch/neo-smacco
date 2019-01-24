@@ -127,7 +127,7 @@ demonstrate the capability of easily handling different logic for different asse
       "condition" : {
         "condition_type" : "CHECKSIG",
         "pubkey" : "0"
-      },
+      }
     },
     {
       "rule_type": "ALLOW_IF",
@@ -156,10 +156,10 @@ demonstrate the capability of easily handling different logic for different asse
                 "condition_type" : "ONLY_GAS"
               }
             ]
-          },
+          }
         ]
-      },
-    },
+      }
+    }
   ],
   "default_rule" : "DENY_ALL"
 }
