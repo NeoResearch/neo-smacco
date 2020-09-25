@@ -9,6 +9,19 @@ This project aims to easily generate "smart accounts" for holding assets based o
 
 That will help NEO users to easily create and manage safe account addresses. Initially, only json interface will be provided to allow C# code generation (that will become AVM). After that, visual interfaces can help the design process, keeping in mind this is NOT a tool intended for developers, but to general public.
 
+## Documentation
+**Official Documentation on [ReadTheDocs](https://neo-smacco.readthedocs.io)**
+
+[![Documentation Status](https://readthedocs.org/projects/neo-smacco/badge/?version=latest)](https://neo-smacco.readthedocs.io/en/latest/?badge=latest)
+
+
+### Docs Requirements (local build)
+
+`python3 -m pip install -r docs/requirements.txt`
+
+`make docs`
+
+
 ## How to use it
 
 ### Install on web browser
