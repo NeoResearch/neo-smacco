@@ -239,3 +239,69 @@ And the corresponding C# smart contract:
     |contract3|
 
 
+Logic Operations
+----------------
+
+Conditions can also be combined by means of logic AND/OR operations.
+
+For example, by giving two pubkeys as parameter, we can use OR to make a choice between them:
+
+.. code-block:: json
+
+    {
+        "rule_type": "ALLOW_IF",
+        "condition" : {
+            "condition_type" : "OR",
+            "conditions" : [
+                {
+                    "condition_type" : "CHECKSIG",
+                    "pubkey" : "0"
+                },
+                {
+                    "condition_type" : "CHECKSIG",
+                    "pubkey" : "1"
+                }
+            ]
+        }
+    }
+
+.. hint::
+    The above example is equivalent to a 1/2 MultiSig. Practice a little bit and try that!
+
+
+Available Conditions
+--------------------
+
+We present a short list of available conditions.
+
+.. warning::
+    This list is **very likely to be incomplete**! If more information is needed, open an Issue for
+    a discussion on GitHub, or inspect the source code :code:`smacco.js` to find out more details.
+
+Conditions and subfields:
+
+- :code:`AND`: performs logic AND
+    * :code:`conditions`: json list of conditions to perform AND
+- :code:`OR`: performs logic OR
+    * :code:`conditions`: json list of conditions to perform OR
+- :code:`CHECKSIG`: performs CHECKSIG to validate default or explicit pubkey
+    * :code:`pubkey`: explicit pubkey index (defaults to 0)
+- :code:`CHECKMULTISIG`: performs CHECKMULTISIG X/Y
+    * :code:`pubkeys`: list of public keys to check (value Y). Defaults to global :code:`pubkey_list`.
+    * :code:`minimum_required`: value X of X/Y multisig
+    * :code:`signatures`: explicit index of signatures passed as array to contract. Length of list replaces *minimum_required*.
+    * :code:`condition_name`: name of condition (affects C# function name)
+- :code:`TIMESTAMP_LESS`: check if timestamp is *less than* a given value
+    * :code:`timestamp`: explicit time value in timestamp format
+    * :code:`utc`: explicit time value in utc format
+- :code:`TIMESTAMP_GREATER`: check if timestamp is *greater than* a given value
+    * :code:`timestamp`: explicit time value in timestamp format
+    * :code:`utc`: explicit time value in utc format
+- :code:`SELF_TRANSFER`: check if transaction is a self-transfer (destination is same as source)
+- :code:`ONLY_NEO`: check if only NEO asset is being transferred
+- :code:`ONLY_GAS`: check if only GAS asset is being transferred
+
+Interesting examples of each of these options are presented on file :code:`smacco.test.js`.
+
+
+
