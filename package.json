@@ -21,10 +21,10 @@
   },
   "homepage": "https://neoresearch.io/smacco",
   "dependencies": {
-    "jest": "^23.6.0",
-    "webpack": "^4.20.2"
+    "jest": "^29.3.1",
+    "webpack": "^5.75.0"
   },
   "devDependencies": {
-    "webpack-cli": "^3.1.1"
+    "webpack-cli": "^5.0.1"
   }
 }
